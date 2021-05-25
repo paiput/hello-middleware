@@ -1,9 +1,13 @@
 const express = require('express');
-// const morgan  = require('morgan');
 const app = express();
-app.use(express.json());
-app.post('/hola', (req, res) => {
-    console.log(`Hola, ${req.body.name}`);
-    res.end();
+const apiRouter = express.Router();
+const logger = (req, res, next) => {
+    console.log(`estas en la ruta ${req.path}`);
+}
+
+apiRouter.get('/users', (req, res) => {
+    res.json({ msg: "Todos los usuarios" });
 });
+app.use(logger);
+app.use('/api', apiRouter);
 app.listen(3000);
